@@ -1,7 +1,5 @@
 use std::collections::{HashMap, HashSet};
-use std::env;
-use std::fs::File;
-use std::io::{BufRead, BufReader, Error};
+use std::io::BufRead;
 
 fn is_over_max(set: &[&str], maximums: HashMap<&str, i32>) -> bool {
         println!("is over max: {:?}", set);
@@ -12,7 +10,7 @@ fn is_over_max(set: &[&str], maximums: HashMap<&str, i32>) -> bool {
 }
 
 pub(crate) fn day_two_part_one() -> Result<(), std::io::Error> {
-    let reader = get_puzzle_input()?;
+    let reader = crate::get_puzzle_input("src/day_two_puzzle_input.txt")?;
 
     let mut max_color = HashMap::new();
 
@@ -48,16 +46,16 @@ pub(crate) fn day_two_part_one() -> Result<(), std::io::Error> {
 }
 
 pub(crate) fn day_two_part_two() -> Result<(), std::io::Error> {
-    let reader = get_puzzle_input()?;
+    let reader = crate::get_puzzle_input("src/day_two_puzzle_input.txt")?;
 
     let mut powers: Vec<i32> = vec![];
 
     for line_result in reader.lines() {
         let mut line = line_result?;
-        println!("{}", line);
+
         let mut first_parts: Vec<_> = line.split(':').collect();
         let id = first_parts.first().unwrap().split(" ").nth(1).unwrap().parse::<i32>().unwrap();
-        println!("Game {}", id);
+
         let sets: Vec<_> = first_parts.last().unwrap().trim().split(';').flat_map(|x|x.split(", ").map(str::trim)).map(|x|x.split(" ").collect::<Vec<_>>()).collect();
         let mut max_color = HashMap::new();
 
@@ -80,16 +78,4 @@ pub(crate) fn day_two_part_two() -> Result<(), std::io::Error> {
     println!("sum of powers: {}", powers.iter().sum::<i32>());
 
     Ok(())
-}
-
-fn get_puzzle_input() -> Result<BufReader<File>, Error> {
-    let current_dir = env::current_dir()?;
-    let path = "src/day_two_puzzle_input.txt";
-    let absolute_path = current_dir.join(path);
-    println!("{:?}", absolute_path);
-    let file = File::open(absolute_path)?;
-
-    // Create a BufReader to efficiently read the file line by line
-    let reader = BufReader::new(file);
-    Ok(reader)
 }
