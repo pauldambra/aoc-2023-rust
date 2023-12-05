@@ -2,11 +2,14 @@ mod day_one;
 mod day_two;
 mod day_three;
 mod r#aoc;
+mod day_four;
 
 use day_one::day_one;
 use day_two::day_two_part_one;
 use day_two::day_two_part_two;
 use day_three::day_three_part_one;
+use day_four::day_four_part_one;
+use day_four::day_four_part_two;
 use std::io::{BufReader, Error};
 use std::fs::File;
 use std::env;
@@ -26,6 +29,12 @@ fn main() {
         eprintln!("Error: {}", err)
     }
     if let Err(err) = day_three_part_two() {
+        eprintln!("Error: {}", err)
+    }
+    if let Err(err) = day_four_part_one() {
+        eprintln!("Error: {}", err)
+    }
+    if let Err(err) = day_four_part_two() {
         eprintln!("Error: {}", err)
     }
 }
